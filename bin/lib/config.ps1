@@ -7,6 +7,8 @@ function LoadConfig($file) {
   }
 }
 
+$default = ""
+
 # Adapted from Scoop lib/config.ps1, Unlicense
 function GetConfig($name, $default) {
   if ($null -eq $mmmConfig.$name -and $null -ne $default) {

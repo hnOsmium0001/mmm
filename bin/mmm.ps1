@@ -3,10 +3,10 @@
 $configDirectory = "~/.config/mmm/"
 $configFile = "~/.config/mmm/config.json"
 if (!(Test-Path $configDirectory)) {
-  [void](New-Item $configDirectory -ItemType Directory)
+  New-Item $configDirectory -ItemType Directory | Out-Null
 }
 if (!(Test-Path $configFile)) {
-  [void](New-Item $configFile -ItemType File)
+  New-Item $configFile -ItemType File | Out-Null
 }
 
 $task = $args[0]
@@ -21,6 +21,9 @@ switch ($task) {
   }
   "info" {
     . "$PSScriptRoot/commands/mmm-info.ps1"
+  }
+  "search" {
+    . "$PSScriptRoot/commands/mmm-search.ps1"
   }
   Default {
     Write-Error "The command $task is not recognized by mmm"
