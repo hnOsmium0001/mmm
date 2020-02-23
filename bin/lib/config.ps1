@@ -1,13 +1,11 @@
-function LoadConfig($file) {
+function LoadConfig() {
   try {
-    return (Get-Content $file -Raw | ConvertFrom-Json -ErrorAction Stop)
+    return (Get-Content $configFile -Raw | ConvertFrom-Json -ErrorAction Stop)
   }
   catch {
-    Write-Error "Error while reading config $file`: $($_.exception.message)"
+    Write-Error "Error while reading config $configFile`: $($_.exception.message)"
   }
 }
-
-$default = ""
 
 # Adapted from Scoop lib/config.ps1, Unlicense
 function GetConfig($name, $default) {

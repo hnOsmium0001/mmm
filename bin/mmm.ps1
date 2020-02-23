@@ -1,31 +1,14 @@
 . "$PSScriptRoot/lib/config.ps1"
 
-$configDirectory = "~/.config/mmm/"
-$configFile = "~/.config/mmm/config.json"
-if (!(Test-Path $configDirectory)) {
-  New-Item $configDirectory -ItemType Directory | Out-Null
-}
-if (!(Test-Path $configFile)) {
-  New-Item $configFile -ItemType File | Out-Null
-}
+$installationConfig = (Get-Content "~/.config/mmm/installation.json" -Raw | ConvertFrom-Json -ErrorAction Stop)
+$installation = $installationConfig.InstallLocation
 
-$task = $args[0]
+$configFile = "$installation/config.json"
+New-Item $configFile -Force -ItemType File | Out-Null
+LoadConfig
 
-switch ($task) {
-  "install" {
-    . "$PSScriptRoot/commands/mmm-install.ps1"
-    InstallMod "Test install mod"
-  }
-  "assemble" {
-    . "$PSScriptRoot/commands/mmm-assemble.ps1"
-  }
-  "info" {
-    . "$PSScriptRoot/commands/mmm-info.ps1"
-  }
-  "search" {
-    . "$PSScriptRoot/commands/mmm-search.ps1"
-  }
-  Default {
-    Write-Error "The command $task is not recognized by mmm"
-  }
-}
+. "$PSScriptRoot/lib/resources.ps1"
+LoadResources
+
+. "$PSScriptRoot/lib/tasks.ps1"
+PerfomTask $args[0]
