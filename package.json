@@ -1,0 +1,28 @@
+{
+  "name": "mmm",
+  "version": "1.0.0",
+  "description": "Minecraft mod manager",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hnOsmium0001/mmm.git"
+  },
+  "keywords": [
+    "minecraft",
+    "package-manager"
+  ],
+  "author": "hnOsmium0001",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hnOsmium0001/mmm/issues"
+  },
+  "homepage": "https://github.com/hnOsmium0001/mmm#readme",
+  "type": "module",
+  "dependencies": {
+    "cloudscraper": "^4.6.0",
+    "request": "^2.88.2"
+  }
+}
