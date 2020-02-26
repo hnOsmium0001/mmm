@@ -8,3 +8,4 @@ export const dataLocation = path.normalize(installInfo.dataLocation);
 export const configLocation = path.normalize(`${dataLocation}/config.json`);
 export const config = JSON.parse(fs.readFileSync(configLocation, "utf8"));
 process.on("exit", () => fs.writeFileSync(configLocation, JSON.stringify(config, null, 2)));
+export const modsLocation = path.normalize(`${dataLocation}/mods/`);

@@ -3,47 +3,76 @@
 import yargs from "yargs";
 import { configLocation, dataLocation } from "./config.js";
 
-const argv = yargs
-  .command("install",
-    `Install a mod from a given repository.`,
-    {
-      repo: {
-        description: "The repository to install mod from.",
+yargs
+  .command("install <mod-slug> [version] [-t TAG] [-r REPO] [-m MINECRAFT]",
+    `Install a mod from the given repository.`,
+    yargs => {
+      yargs.positional("mod-slug", {
+        describe: "Slug (e.g. the-one-probe) of the mod.",
+        type: "string",
+      });
+      yargs.positional("version", {
+        describe: "Version of the mod to install. In most cases in SemVer, but also can be labels if applicable",
+        type: "string",
+        default: "release",
+      });
+      yargs.option("tag", {
+        describe: "Tag of the mod file.",
+        alias: "t",
+        type: "string",
+      });
+      yargs.option("repo", {
+        describe: "The repository to install the mod from.",
         alias: "r",
         type: "string",
-      },
+        default: "curseforge",
+      });
+      yargs.option("minecraft", {
+        describe: "Minecraft version of the mod.",
+        alias: "m",
+        type: "string",
+        default: "1.14.4",
+      });
+    },
+    argv => {
+      const repo = argv.repo;
+      const mcVersion = argv.minecraft;
+      const slug = argv.modSlug;
+      const version = argv.version;
+      const artifact = "";
+      const tag = argv.tag;
+      const url = tag === ""
+        ? `https://www.curseforge.com/api/maven/${slug}/${artifact}/${version}/${artifact}-${version}.jar`
+        : `https://www.curseforge.com/api/maven/${slug}/${artifact}/${version}/${artifact}-${version}-${tag}.jar`;
+      console.log(url)
     })
-  .command("uninstall",
-    `Uninstall a mod from a given repository.`,
-    {})
-  .command("pd",
+  .command("uninstall <mod-slug> [-r REPO]",
+    `Uninstall a mod from the given repository.`,
+    yargs => {
+      yargs.positional("mod-slug", {
+        describe: "Slug (e.g. the-one-probe) of the mod.",
+        type: "string",
+      });
+      yargs.option("repo", {
+        describe: "The repository to uninstall the mod from",
+        alias: "r",
+        type: "string",
+        default: "curseforge",
+      });
+    },
+    argv => {
+
+    })
+  .command("pd <target>",
     "Print location of the various data stroages.",
-    {
-      data: {
-        description: "Show location of the data directory.",
-        alias: "d",
-        type: "boolean",
-      },
-      config: {
-        description: "Show location of the config file.",
-        alias: "c",
-        type: "boolean",
-      },
+    {},
+    argv => {
+      if (argv.target === "data") {
+        console.log(`Data location: ${dataLocation}`);
+      } else if (argv.target === "config") {
+        console.log(`Config location: ${configLocation}`);
+      }
     })
   .help()
   .alias("help", "h")
   .argv;
-
-if (argv._.includes("install")) {
-
-} else if (argv._.includes("uninstall")) {
-  
-} else if (argv._.includes("pd")) {
-  if (argv.data) {
-    console.log(`Data location: ${dataLocation}`);
-  } else if (argv.config) {
-    console.log(`Config location: ${configLocation}`);
-  } else {
-    console.log("Invalid usage of pd command. Use `mmm pd -h` to show help.")
-  }
-}
