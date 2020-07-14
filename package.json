@@ -24,6 +24,7 @@
   "homepage": "https://github.com/hnOsmium0001/mmm#readme",
   "type": "module",
   "dependencies": {
+    "mc-curseforge-api": "^2.1.0",
     "readline-sync": "^1.4.10",
     "request": "^2.88.2",
     "yargs": "^15.1.0"
